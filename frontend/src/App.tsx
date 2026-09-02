@@ -4,14 +4,17 @@ import type { UserRole, ClientSummary, ClientDetail } from './types';
 import { fetchClients, fetchClientDetail } from './services/api';
 import { Landing } from './components/Landing';
 import { TopBar } from './components/TopBar';
-import { Sidebar } from './components/Sidebar';
+import { Sidebar, type ModuleType } from './components/Sidebar';
 import { IndividualDashboard } from './components/IndividualDashboard';
+import { TaxEstateView } from './components/TaxEstateView';
+import { AlternativeAssetsView } from './components/AlternativeAssetsView';
+import { InstitutionalTreasuryView } from './components/InstitutionalTreasuryView';
 import { AdvisorWorkstation } from './components/AdvisorWorkstation';
 import { AlertTriangle, RefreshCw } from 'lucide-react';
 
 function PortalWorkspace() {
   const [role, setRole] = useState<UserRole>('advisor');
-  const [activeModule, setActiveModule] = useState<'A' | 'E'>('A');
+  const [activeModule, setActiveModule] = useState<ModuleType>('A');
   const [clients, setClients] = useState<ClientSummary[]>([]);
   const [selectedClientDetail, setSelectedClientDetail] = useState<ClientDetail | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -62,6 +65,8 @@ function PortalWorkspace() {
       setActiveModule('A');
     } else if (newRole === 'advisor') {
       setActiveModule('E');
+    } else if (newRole === 'institutional') {
+      setActiveModule('D');
     }
   };
 
@@ -118,6 +123,12 @@ function PortalWorkspace() {
                 onSelectClient={handleSelectClient}
                 isLoading={isLoading}
               />
+            ) : activeModule === 'B' ? (
+              <TaxEstateView client={selectedClientDetail} />
+            ) : activeModule === 'C' ? (
+              <AlternativeAssetsView client={selectedClientDetail} />
+            ) : activeModule === 'D' ? (
+              <InstitutionalTreasuryView client={selectedClientDetail} />
             ) : (
               <AdvisorWorkstation
                 clients={clients}

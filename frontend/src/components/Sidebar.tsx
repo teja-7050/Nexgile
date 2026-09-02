@@ -6,22 +6,23 @@ import {
   FileText,
   Boxes,
   Building,
-  Lock,
 } from 'lucide-react';
 
+export type ModuleType = 'A' | 'B' | 'C' | 'D' | 'E';
+
 interface SidebarProps {
-  activeModule: 'A' | 'E';
-  setActiveModule: (mod: 'A' | 'E') => void;
+  activeModule: ModuleType;
+  setActiveModule: (mod: ModuleType) => void;
   role: UserRole;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({ activeModule, setActiveModule }) => {
   const modules = [
-    { id: 'A', label: 'Individual Wealth',       sub: 'Dashboard & Holdings',    icon: LayoutDashboard, enabled: true  },
-    { id: 'B', label: 'Tax & Estate Planning',   sub: 'Trust & Tax Strategies',  icon: FileText,        enabled: false },
-    { id: 'C', label: 'Alternative Assets',      sub: 'Private Equity & Crypto', icon: Boxes,           enabled: false },
-    { id: 'D', label: 'Institutional Treasury',  sub: 'Liquidity Management',    icon: Building,        enabled: false },
-    { id: 'E', label: 'Advisor Workstation',     sub: 'Client 360 & Tools',      icon: Briefcase,       enabled: true  },
+    { id: 'A' as ModuleType, label: 'Individual Wealth',       sub: 'Dashboard & Holdings',    icon: LayoutDashboard, enabled: true  },
+    { id: 'B' as ModuleType, label: 'Tax & Estate Planning',   sub: 'Trust & Tax Strategies',  icon: FileText,        enabled: true  },
+    { id: 'C' as ModuleType, label: 'Alternative Assets',      sub: 'Private Equity & Crypto', icon: Boxes,           enabled: true  },
+    { id: 'D' as ModuleType, label: 'Institutional Treasury',  sub: 'Liquidity Management',    icon: Building,        enabled: true  },
+    { id: 'E' as ModuleType, label: 'Advisor Workstation',     sub: 'Client 360 & Tools',      icon: Briefcase,       enabled: true  },
   ];
 
   return (
@@ -51,18 +52,16 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeModule, setActiveModule 
             return (
               <button
                 key={mod.id}
-                disabled={!mod.enabled}
-                onClick={() => mod.enabled && setActiveModule(mod.id as 'A' | 'E')}
+                onClick={() => setActiveModule(mod.id)}
                 className="w-full text-left flex items-start gap-3 px-5 py-3 transition-colors"
                 style={{
-                  cursor: mod.enabled ? 'pointer' : 'not-allowed',
+                  cursor: 'pointer',
                   borderLeft: isActive ? '2px solid var(--accent-text)' : '2px solid transparent',
                   background: isActive ? 'var(--bg-raised)' : 'transparent',
                   paddingLeft: isActive ? 'calc(1.25rem - 2px)' : '1.25rem',
-                  opacity: mod.enabled ? 1 : 0.4,
                 }}
                 onMouseEnter={e => {
-                  if (mod.enabled && !isActive) {
+                  if (!isActive) {
                     (e.currentTarget as HTMLElement).style.background = 'var(--bg-raised)';
                   }
                 }}
@@ -84,15 +83,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeModule, setActiveModule 
                   >
                     {mod.label}
                   </div>
-                  <div className="flex items-center gap-1.5 mt-0.5">
-                    <span className="text-[10px]" style={{ color: 'var(--text-muted)' }}>
-                      {mod.sub}
-                    </span>
-                    {!mod.enabled && (
-                      <span className="flex items-center gap-0.5 text-[9px]" style={{ color: 'var(--text-muted)' }}>
-                        <Lock size={8} /> Soon
-                      </span>
-                    )}
+                  <div className="text-[10px] mt-0.5" style={{ color: 'var(--text-muted)' }}>
+                    {mod.sub}
                   </div>
                 </div>
               </button>
@@ -105,44 +97,38 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeModule, setActiveModule 
           className="px-5 py-4 text-[10px] leading-relaxed"
           style={{ color: 'var(--text-muted)', borderTop: '1px solid var(--border)' }}
         >
-          Modules A &amp; E active.<br />
-          B, C, D in development.
+          Modules A, B, C, D &amp; E active.<br />
+          Institutional Workstation Online.
         </div>
       </aside>
 
       {/* ── Mobile Horizontal Navigation Strip (below md breakpoint) ── */}
       <div
-        className="md:hidden w-full flex items-center gap-1 px-4 py-2 overflow-x-auto shrink-0"
+        className="md:hidden w-full flex items-center gap-1.5 px-4 py-2 overflow-x-auto shrink-0"
         style={{
           background: 'var(--bg-surface)',
           borderBottom: '1px solid var(--border)',
         }}
       >
-        <button
-          onClick={() => setActiveModule('A')}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm text-xs font-medium shrink-0"
-          style={{
-            background: activeModule === 'A' ? 'var(--bg-raised)' : 'transparent',
-            border: activeModule === 'A' ? '1px solid var(--accent-text)' : '1px solid var(--border)',
-            color: activeModule === 'A' ? 'var(--text-primary)' : 'var(--text-muted)',
-          }}
-        >
-          <LayoutDashboard size={13} />
-          <span>Individual Wealth</span>
-        </button>
-
-        <button
-          onClick={() => setActiveModule('E')}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm text-xs font-medium shrink-0"
-          style={{
-            background: activeModule === 'E' ? 'var(--bg-raised)' : 'transparent',
-            border: activeModule === 'E' ? '1px solid var(--accent-text)' : '1px solid var(--border)',
-            color: activeModule === 'E' ? 'var(--text-primary)' : 'var(--text-muted)',
-          }}
-        >
-          <Briefcase size={13} />
-          <span>Advisor Workstation</span>
-        </button>
+        {modules.map((mod) => {
+          const Icon = mod.icon;
+          const isActive = activeModule === mod.id;
+          return (
+            <button
+              key={mod.id}
+              onClick={() => setActiveModule(mod.id)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm text-xs font-medium shrink-0"
+              style={{
+                background: isActive ? 'var(--bg-raised)' : 'transparent',
+                border: isActive ? '1px solid var(--accent-text)' : '1px solid var(--border)',
+                color: isActive ? 'var(--text-primary)' : 'var(--text-muted)',
+              }}
+            >
+              <Icon size={13} />
+              <span>{mod.label}</span>
+            </button>
+          );
+        })}
       </div>
     </>
   );
