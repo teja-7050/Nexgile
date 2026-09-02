@@ -1,0 +1,144 @@
+@import "tailwindcss";
+
+/* ────────────────────────────────────────────────────────
+   NEXGILE-WEALTHAGENT — INSTITUTIONAL PRIVATE BANKING UI
+   Design tokens: deep charcoal-navy base, forest green
+   single accent, hairline borders, no shadows.
+   ──────────────────────────────────────────────────────── */
+
+@layer base {
+  :root {
+    --bg-base:       #12161C;
+    --bg-surface:    #181D25;
+    --bg-raised:     #1D2330;
+    --border:        #262B34;
+    --border-subtle: #1F2430;
+    --text-primary:  #E8E9EB;
+    --text-secondary:#8A8F98;
+    --text-muted:    #555B66;
+    --accent:        #2F5D4C;
+    --accent-dim:    #1E3D33;
+    --accent-text:   #5B9E88;
+    --gain-text:     #4D9E72;
+    --loss-text:     #9E5757;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+
+  /* Tabular lining numerals on all financial figures */
+  .num {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-variant-numeric: tabular-nums lining-nums;
+    font-feature-settings: "tnum" 1, "lnum" 1;
+  }
+
+  /* Keyboard focus — visible states required */
+  :focus-visible {
+    outline: 2px solid var(--accent-text);
+    outline-offset: 2px;
+  }
+
+  /* Custom scrollbar — minimal */
+  ::-webkit-scrollbar        { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track  { background: var(--bg-base); }
+  ::-webkit-scrollbar-thumb  { background: var(--border); border-radius: 2px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+}
+
+/* ── Surface panel — hairline border, no shadow, no blur ── */
+.panel {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+}
+
+/* ── Thin hairline divider ── */
+.hairline {
+  border-color: var(--border);
+}
+
+/* ── Stat row separator — vertical hairline between cells ── */
+.stat-cell + .stat-cell {
+  border-left: 1px solid var(--border);
+}
+
+/* ── Performance line chart draw-in animation ── */
+@keyframes chart-draw {
+  from { stroke-dashoffset: 1000; }
+  to   { stroke-dashoffset: 0; }
+}
+
+.recharts-line-curve {
+  stroke-dasharray: 1000;
+  animation: chart-draw 1.2s ease-out forwards;
+}
+
+/* ── Goal progress bar ── */
+.goal-bar-fill {
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Nav active indicator — left accent bar instead of bg fill ── */
+.nav-active {
+  border-left: 2px solid var(--accent-text);
+  background: var(--bg-raised);
+  color: var(--text-primary);
+}
+
+/* ── Gain / loss text colors ── */
+.gain { color: var(--gain-text); }
+.loss { color: var(--loss-text); }
+
+/* ── Muted tag — outlined, not filled ── */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 3px;
+  border: 1px solid;
+}
+
+.tag-on-track  { color: var(--accent-text);   border-color: var(--accent-text);   background: transparent; }
+.tag-ahead     { color: var(--gain-text);      border-color: var(--gain-text);     background: transparent; }
+.tag-behind    { color: var(--loss-text);      border-color: var(--loss-text);     background: transparent; }
+
+/* ── Risk tags — desaturated, outlined ── */
+.risk-low      { color: var(--text-secondary); border-color: var(--border); }
+.risk-moderate { color: #7A8A72;               border-color: #3C4A38; }
+.risk-high     { color: #9A8060;               border-color: #4A3820; }
+.risk-spec     { color: var(--loss-text);      border-color: #4A2E2E; }
+
+/* ── Horizontal stacked allocation bar ── */
+.alloc-bar {
+  height: 6px;
+  border-radius: 1px;
+  overflow: hidden;
+  display: flex;
+  gap: 1px;
+}
+
+.alloc-segment {
+  height: 100%;
+  transition: opacity 0.2s;
+}
+
+.alloc-segment:hover {
+  opacity: 0.75;
+}
