@@ -1,43 +1,65 @@
-# Nexgile-WealthAgent Wealth Management Portal
+# Nexgile-WealthAgent — Wealth Management Portal
 
-A high-performance, institutional-grade **Wealth Management Portal** built for private banking and high-net-worth (HNW) wealth advisors.
+An institutional-grade **Private Wealth Management Portal & Workstation** built for HNW clients, family offices, and wealth advisors.
 
 ---
 
-## 🚀 Quick Start (2 Commands)
+## 🌐 Live Production Deployments
+
+- **Frontend Application (Vercel)**: [https://nexgile-coral.vercel.app](https://nexgile-coral.vercel.app)
+- **Backend REST API (Render)**: [https://nexgile.onrender.com](https://nexgile.onrender.com)
+- **Interactive Swagger Docs**: [https://nexgile.onrender.com/docs](https://nexgile.onrender.com/docs)
+- **GitHub Repositories**:
+  - Primary: [https://github.com/teja-7050/Nexgile](https://github.com/teja-7050/Nexgile)
+  - Mirror: [https://github.com/teja2772git/Nexgile-](https://github.com/teja2772git/Nexgile-)
+
+---
+
+## 🚀 Local Quick Start (2 Commands)
 
 ### 1. Start Python FastAPI Backend
 ```bash
 cd backend
+pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
-*Backend runs on `http://localhost:8000` with Swagger docs at `http://localhost:8000/docs`.*
+*Backend runs locally at `http://localhost:8000` with Swagger docs at `http://localhost:8000/docs`.*
 
 ### 2. Start React Frontend
 ```bash
 cd frontend
+npm install
 npm run dev
 ```
-*Frontend runs on `http://localhost:5173`.*
+*Frontend runs locally at `http://localhost:5173`.*
 
 ---
 
-## 📋 Assessment Specification Mapping & Scope
+## 📋 Assessment Specification Mapping & Active Modules
 
-| Spec Section | Implemented Feature | Status |
+| Spec Module | Description | Status |
 | :--- | :--- | :--- |
-| **Section 2 & 7** | System Architecture, Repository Pattern, Role Switcher (Individual / Advisor / Institutional) | ✅ Complete |
-| **Section 3A** | **Module A (Individual Wealth Dashboard)** — Total Assets, Liabilities, Net Worth, YTD Return %, 12-Month Performance Chart vs Nifty 50, Period Selector (1M / 3M / YTD / 1Y), Holdings Table with Cost Basis & Unrealized Gain/Loss, Asset Class Allocation, Wealth Goals Progress Tracker | ✅ Complete |
-| **Section 3E & 6** | **Module E (Advisor Workstation)** — Total AUM KPI, Client 360 Directory, Portfolio Drilldown, Risk Tolerance Matrix Bar Chart, Pydantic v2 schemas, REST endpoints | ✅ Complete |
-| **UX & Resiliency** | Skeleton Loading Placeholders, On-Brand Error States ("Unable to load client data — check that the server is running"), Empty States for zero goals/holdings | ✅ Complete |
-| **Section 3B, 3C, 3D** | Tax & Estate Planning, Alternative Assets, Institutional Treasury | 🔒 Stubbed ("Coming Soon") |
+| **Pre-Portal** | Full-screen video hero landing page with slow playback rate, motion graphic background & explainer section | ✅ Active |
+| **Module A** | **Individual Wealth Dashboard** — Aggregated net worth (*₹4.85 Cr*), Nifty 50 performance line chart with period selector (**1M / 3M / YTD / 1Y**), responsive two-column layout, wealth goals tracker, holdings table with cost basis & gain/loss | ✅ Active |
+| **Module B** | **Tax & Estate Planning** — Tax-loss harvesting engine (*₹42.50 Lakhs YTD savings*) & registered family trust structures (*₹24.30 Cr AUM*) | ✅ Active |
+| **Module C** | **Alternative Assets** — Private equity, venture capital, and private debt funds with fair market valuations (*₹4.07 Cr*), MOIC (*1.40x*), and Net IRR (*18.4%*) | ✅ Active |
+| **Module D** | **Institutional Treasury** — Corporate cash liquidity management, overnight money market allocations (*₹24.80 Cr*) & yield optimization (*7.22% p.a.*) | ✅ Active |
+| **Module E** | **Advisor Workstation** — Client 360 directory (*₹25.55 Cr Total AUM*), portfolio drilldown, and Risk Tolerance Matrix bar chart | ✅ Active |
 
 ---
 
-## ⚠️ Known Limitations & Assessment Scope
+## 🎨 Design System & Localization
 
-This demonstration is a deliberate, high-polish implementation of key platform workflows within the assessment timeframe:
+- **Color Palette**: Charcoal-navy base `#12161C`, surface `#181D25`, 1px hairline borders `#262B34` (no shadows), single accent forest green `#2F5D4C` / `#5B9E88`.
+- **Typography**: `DM Serif Display` for display numerals with `tabular-nums lining-nums`, `Inter` for UI labels.
+- **Indian Market Localization**: Formatted in Indian Rupee (`₹`), Indian numbering system (`en-IN`), Indian market assets (`RELIANCE.NS`, `TCS.NS`, `INFY.NS`, `HDFCBANK.NS`, `GSEC-10Y`, `GOLD-ETF`), and benchmarked against the **Nifty 50 Index**.
 
-1. **Modules B, C, & D**: Modules B (Tax & Estate), C (Alternative Assets), and D (Institutional Treasury) are stubbed as disabled navigation items marked "Coming Soon".
-2. **Authentication & Persistence**: User Authentication (OAuth2 / JWT) and permanent DB persistence are omitted per assessment guidelines. The backend uses an in-memory repository layer (`app/repositories.py`) designed to swap in SQLAlchemy / PostgreSQL cleanly.
-3. **Document Vault & Integrations**: Document Vault file upload, PDF report export, and live custodian broker integrations (Section 5) are deferred to future production milestones.
+---
+
+## 🛠️ Environment Configuration for Production
+
+When deploying the frontend to Vercel, configure the following environment variable in **Vercel Settings -> Environment Variables**:
+
+```env
+VITE_API_BASE_URL=https://nexgile.onrender.com/api
+```
